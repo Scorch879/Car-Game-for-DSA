@@ -17,9 +17,11 @@
 #define BASE_SPEED 80
 #define MIN_SPEED 20
 #define SLOWMO_DURATION 50
+#define OBSTACLE_LIMIT 6 // VISUAL LIMIT OF NUMBER OF OBSTACLES
 
-
+//Global game variables
 int score = 0;
+int obsCount[LANE_COUNT] = {0}; //ARRAY FOR MANAGING OBSTACLE COUNTS PER LANE
 int carLane = 1;
 bool gameOver = false;
 int lives = INITIAL_LIVES;
@@ -98,8 +100,8 @@ void drawLaneMarkers(int tick) {
     setColor(8);
     for (i = 1; i < HEIGHT; i++) {
         if ((i + tick / 2) % 5 == 0) {
-            for (l = 0; l < LANE_COUNT - 1; l++) {
-                laneX = (l + 2) * LANE_WIDTH;
+            for (l = 0; l < LANE_COUNT; l++) { // FIXED LANE MARKER TO LANE_COUNT INSTEAD OF LANE_COUNT - 1
+                laneX = (l + 1) * LANE_WIDTH; 
                 gotoxy(laneX, i);
                 printf("|");
             }
@@ -199,6 +201,7 @@ void updateObstacles() {
 
         if ((int)(current->y) > HEIGHT) {
             score++;
+            obsCount[current->lane]--;
             if (prev == NULL) {
                 obstacleHead = current->next;
                 free(current);
@@ -215,7 +218,7 @@ void updateObstacles() {
         current = current->next;
     }
 
-    level = score / 10 + 1;
+    level = score / 20 + 1; // ADJUSTED THE LEVELING TO EVERY 20 SCORE MARKS
     speed = BASE_SPEED - (level - 1) * 5;
     if (speed < MIN_SPEED) speed = MIN_SPEED;
 }
@@ -223,7 +226,25 @@ void updateObstacles() {
 void spawnObstacle() {
     bool boss = (level % 5 == 0 && rand() % 3 == 0);
     int lane = rand() % LANE_COUNT;
-    addObstacle(lane, boss);
+    switch(lane) // SWITCH FOR SPECIFIC LANE SPAWNING AND OBSTACLE COUNTING
+    {
+    	case 0:
+    		obsCount[lane]++;
+    		addObstacle(lane, boss);
+    		break;
+    	case 1:
+    		obsCount[lane]++;
+    		addObstacle(lane, boss);
+    		break;
+    	case 2:
+    		obsCount[lane]++;
+    		addObstacle(lane, boss);
+    		break;
+    	case 3:
+    		obsCount[lane]++;
+    		addObstacle(lane, boss);
+    		break;
+	}
 }
 
 void drawUI() {
@@ -323,6 +344,13 @@ void restartGame() {
     gameLoop();
 }
 
+bool allLessThanSix(int obsCount[LANE_COUNT]) {
+	int i;
+    for (i = 0; i < LANE_COUNT; i++)
+        if (obsCount[i] >= OBSTACLE_LIMIT) return false;
+    return true;
+}
+
 void gameLoop() {
     int tick = 0;
     int lastLevel = level;
@@ -349,10 +377,12 @@ void gameLoop() {
 
         if (tick % 2 == 0) {
             updateObstacles();
-
             int spawnRate = (5 - level < 1) ? 1 : 5 - level;
             if (rand() % spawnRate == 0) {
-                spawnObstacle();
+            	if(allLessThanSix(obsCount)) //LIMITS NUMBER OBSTACLE SPAWNS PER LANE
+            	{
+                	spawnObstacle();
+                }
             }
         }
 
