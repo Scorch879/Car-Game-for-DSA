@@ -47,7 +47,6 @@ typedef struct ObstacleNode {
 
 ObstacleNode* obstacleHead = NULL;
 
-
 void restartGame();
 void gameLoop();
 
