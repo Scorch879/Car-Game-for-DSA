@@ -5,10 +5,12 @@
 #include <windows.h>
 #include <time.h>
 
+
 // Game constants
 #define WIDTH 60
 #define HEIGHT 25
-#define CAR_WIDTH 3
+#define SCREEN_SIZE (WIDTH * HEIGHT)
+#define CAR_WIDTH 11
 #define OBSTACLE_WIDTH 5
 #define BOSS_WIDTH 11
 #define LANE_COUNT 4
@@ -21,8 +23,9 @@
 
 //Global game variables
 int score = 0;
-int obsCount[LANE_COUNT] = {0}; //ARRAY FOR MANAGING OBSTACLE COUNTS PER LANE
+int obsCount[LANE_COUNT] = {0};
 int carLane = 1;
+int carY = HEIGHT;
 bool gameOver = false;
 int lives = INITIAL_LIVES;
 int level = 1;
@@ -35,7 +38,7 @@ int highScore = 0;
 
 int i, j, l;
 
-HANDLE hConsole;
+HANDLE hConsole; //Handles colors
 
 
 typedef struct ObstacleNode {
@@ -46,6 +49,7 @@ typedef struct ObstacleNode {
 } ObstacleNode;
 
 ObstacleNode* obstacleHead = NULL;
+
 
 void restartGame();
 void gameLoop();
@@ -80,17 +84,39 @@ int getLaneX(int lane) {
 void drawCar() {
     int x = getLaneX(carLane);
     setColor(shield ? 11 : 10);
-    gotoxy(x, HEIGHT - 4); printf(" ^ ");
-    gotoxy(x, HEIGHT - 3); printf("/|\\");
-    gotoxy(x, HEIGHT - 2); printf("/ \\");
+    
+    gotoxy(x, carY - 2);  printf("   _____   ");
+    gotoxy(x, carY - 1);  printf(" _/     \\_ ");
+    gotoxy(x, carY);      printf("| 00   00 |");
+    gotoxy(x, carY + 1);  printf("""-----------""");
+    
     setColor(7);
 }
 
 void clearCar() {
     int x = getLaneX(carLane);
-    for (i = 0; i < 3; i++) {
-        gotoxy(x, HEIGHT - 4 + i);
-        printf("   ");
+    for (i = -2; i <= 1; i++) {
+        gotoxy(x, carY + i);
+        printf("            "); 
+    }
+}
+
+void moveCarForward() {
+    // MOVES VAR FORWARD
+    carY -= 1;
+
+    // FORWARD MOVEMENT LIMIT
+    if (carY < HEIGHT - 10) {
+        carY = HEIGHT - 10;
+    }
+}
+
+void moveCarBackward() {
+    // MOVES CAR BACKWARD
+    carY += 1;
+    
+    if (carY > HEIGHT) {
+        carY = HEIGHT; // PREVENTS FROM GOING BELOW ORIGINAL POSITION
     }
 }
 
@@ -176,7 +202,7 @@ void updateObstacles() {
         int obsWidth = current->boss ? BOSS_WIDTH : OBSTACLE_WIDTH;
 
         bool xOverlap = (carX < obsX + obsWidth) && (carX + CAR_WIDTH > obsX);
-        bool yOverlap = ((int)(current->y) >= HEIGHT - 4 && (int)(current->y) <= HEIGHT - 2);
+		bool yOverlap = ((int)(current->y) >= carY - 2 && (int)(current->y) <= carY + 1); 
 
         if (xOverlap && yOverlap) {
             if (shield) {
@@ -222,28 +248,19 @@ void updateObstacles() {
     if (speed < MIN_SPEED) speed = MIN_SPEED;
 }
 
+bool allLessThanSix(int obsCount[LANE_COUNT]) {
+	int i;
+    for (i = 0; i < LANE_COUNT; i++)
+        if (obsCount[i] >= OBSTACLE_LIMIT) return false;
+    return true;
+}
+
 void spawnObstacle() {
+	if (!allLessThanSix(obsCount)) return;
     bool boss = (level % 5 == 0 && rand() % 3 == 0);
     int lane = rand() % LANE_COUNT;
-    switch(lane) // SWITCH FOR SPECIFIC LANE SPAWNING AND OBSTACLE COUNTING
-    {
-    	case 0:
-    		obsCount[lane]++;
-    		addObstacle(lane, boss);
-    		break;
-    	case 1:
-    		obsCount[lane]++;
-    		addObstacle(lane, boss);
-    		break;
-    	case 2:
-    		obsCount[lane]++;
-    		addObstacle(lane, boss);
-    		break;
-    	case 3:
-    		obsCount[lane]++;
-    		addObstacle(lane, boss);
-    		break;
-	}
+    obsCount[lane]++;
+	addObstacle(lane, boss);
 }
 
 void drawUI() {
@@ -330,6 +347,7 @@ void restartGame() {
     obstacleHead = NULL;
 
     score = 0;
+    memset(obsCount, 0, sizeof(obsCount));
     carLane = 1;
     gameOver = false;
     lives = INITIAL_LIVES;
@@ -341,13 +359,6 @@ void restartGame() {
 
     system("cls");
     gameLoop();
-}
-
-bool allLessThanSix(int obsCount[LANE_COUNT]) {
-	int i;
-    for (i = 0; i < LANE_COUNT; i++)
-        if (obsCount[i] >= OBSTACLE_LIMIT) return false;
-    return true;
 }
 
 void gameLoop() {
@@ -367,7 +378,11 @@ void gameLoop() {
                 if (carLane > 0) carLane--;
             } else if (ch == 'd' || ch == 'D') {
                 if (carLane < LANE_COUNT - 1) carLane++;
-            } else if (ch == 's' || ch == 'S') {
+            } else if (ch == 'w' || ch == 'W') {
+        		moveCarForward();
+			} else if (ch == 's' || ch == 'S') {
+        		moveCarBackward();
+            } else if (ch == 'z' || ch == 'Z') {
                 activatePowerUp();
             } else if (ch == 'x' || ch == 'X') {
                 gameOver = true;
@@ -376,9 +391,9 @@ void gameLoop() {
 
         if (tick % 2 == 0) {
             updateObstacles();
-            int spawnRate = (5 - level < 1) ? 1 : 5 - level;
+            int spawnRate = ((5 - level) % 5 == 0) ? 1 : 5 - level; //ADJUSTED THE SPAWNRATE FOR MORE DOABLE LEVELS
             if (rand() % spawnRate == 0) {
-            	if(allLessThanSix(obsCount)) //LIMITS NUMBER OBSTACLE SPAWNS PER LANE
+            	if(allLessThanSix(obsCount)) //CONTROLS THE NUMBER OBSTACLE SPAWNS PER LANE
             	{
                 	spawnObstacle();
                 }
