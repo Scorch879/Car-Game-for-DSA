@@ -5,7 +5,6 @@
 #include <windows.h>
 #include <time.h>
 
-
 // Game constants
 #define WIDTH 60
 #define HEIGHT 25
@@ -267,13 +266,17 @@ void drawUI() {
     gotoxy(WIDTH + 5, 2); setColor(15); printf("Score : %d", score);
     gotoxy(WIDTH + 5, 3); printf("Level : %d", level);
     gotoxy(WIDTH + 5, 4); setColor(lives == 1 ? 12 : 15); printf("Lives : %d", lives);
-    gotoxy(WIDTH + 5, 5); printf("High  : %d", highScore);
+    gotoxy(WIDTH + 5, 5); printf("High Score: %d", highScore);
     gotoxy(WIDTH + 5, 7); setColor(shield ? 11 : 8); printf("Shield : %s", shield ? "ON " : "OFF");
     gotoxy(WIDTH + 5, 8); setColor(slowmo ? 13 : 8); printf("SlowMo : %s", slowmo ? "ON " : "OFF");
-    setColor(7);
-    gotoxy(WIDTH + 5, 10); printf("Controls: A/D");
-    gotoxy(WIDTH + 5, 11); printf("PowerUp : S");
-    gotoxy(WIDTH + 5, 12); printf("Exit    : X");
+    setColor(15);
+    gotoxy(WIDTH + 5, 10); printf("Controls:");
+    gotoxy(WIDTH + 5, 11); printf("W - Forward");
+    gotoxy(WIDTH + 5, 12); printf("A - Left");
+    gotoxy(WIDTH + 5, 13); printf("S - Backward");
+    gotoxy(WIDTH + 5, 14); printf("D - Right");
+    gotoxy(WIDTH + 5, 16); printf("PowerUp : Z");
+    gotoxy(WIDTH + 5, 17); printf("Exit    : X");
 }
 
 void levelUpEffect() {
@@ -290,12 +293,33 @@ void levelUpEffect() {
 }
 
 void saveHighScore() {
+	
+	FILE *file = fopen("highscore.txt", "r");
+	
+	//If the file does not exist
+	if (!file) {
+		file = fopen("highscore.txt", "w");
+		if (!file) {
+            printf("\nError: Unable to create highscore file.\n\n");
+            return;
+        }
+        	fprintf(file, "0"); // Initialize with 0 if no previous high score exists
+		fclose(file);
+	}
+		
+	else {
+		fclose(file);
+	}
+	
     if (score > highScore) {
         FILE* file = fopen("highscore.txt", "w");
         if (file) {
             fprintf(file, "%d", score);
             fclose(file);
         }
+        else {
+        	printf("\nError: Unable to create highscore file.\n\n");
+		}
     }
 }
 
