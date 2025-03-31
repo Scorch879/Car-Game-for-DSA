@@ -299,7 +299,7 @@ void saveHighScore() {
 	//If the file does not exist
 	if (!file) {
 		file = fopen("highscore.txt", "w");
-		if (!file) {
+		if (!file) {	
             printf("\nError: Unable to create highscore file.\n\n");
             return;
         }
@@ -324,10 +324,14 @@ void saveHighScore() {
 }
 
 void loadHighScore() {
-    FILE* file = fopen("highscore.txt", "r");
+     FILE* file = fopen("highscore.txt", "r");
     if (file) {
-        fscanf(file, "%d", &highScore);
+        if (fscanf(file, "%d", &highScore) != 1) {
+            highScore = 0; // Default to 0 if file is empty or invalid
+        }
         fclose(file);
+    } else {
+        highScore = 0; // Default to 0 if file does not exist
     }
 }
 
