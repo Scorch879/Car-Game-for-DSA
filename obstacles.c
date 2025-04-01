@@ -112,5 +112,7 @@ void updateObstacles() {
 
     level = score / 20 + 1; // ADJUSTED THE LEVELING TO EVERY 20 SCORE MARKS
     speed = BASE_SPEED - (level - 1) * 5;
-    if (speed < MIN_SPEED) speed = MIN_SPEED;
+    
+    if (speed < MIN_SPEED) 
+		speed = MIN_SPEED;
 }

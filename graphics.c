@@ -116,11 +116,15 @@ void gameOverScreen() {
     char choice;
     while (1) {
         choice = _getch();
-        if (choice == 'r' || choice == 'R') {
+        if (choice == 'r' || choice == 'R') 
+		{
             restartGame();
             break;
-        } else if (choice == 'x' || choice == 'X') {
-            exit(0);
+        } 
+		else if (choice == 'x' || choice == 'X') 
+		{
+			resetGame();
+			mainMenu();
         }
     }
 }

@@ -1,5 +1,7 @@
 #include "game.h"
 #include "obstacles.h"
+#include "powerups.h"
+#include "highscore.h"
 
 //declaration of extern variables
 int score = 0;
@@ -65,6 +67,32 @@ void restartGame() {
     gameLoop();
 }
 
+void resetGame()
+{
+	ObstacleNode* current = obstacleHead;
+    while (current != NULL) 
+	{
+        ObstacleNode* temp = current;
+        current = current->next;
+        free(temp);
+    }
+    obstacleHead = NULL;
+	
+	carY = HEIGHT;
+    score = 0;
+    memset(obsCount, 0, sizeof(obsCount));
+    carLane = 1;
+    gameOver = false;
+    lives = INITIAL_LIVES;
+    level = 1;
+    speed = BASE_SPEED;
+    shield = false;
+    slowmo = false;
+    slowmoTicks = 0;
+
+    system("cls");
+}
+
 void gameLoop() {
     int tick = 0;
     int lastLevel = level;
@@ -78,17 +106,28 @@ void gameLoop() {
 
         if (_kbhit()) {
             char ch = _getch();
-            if (ch == 'a' || ch == 'A') {
+            if (ch == 'a' || ch == 'A') 
+			{
                 if (carLane > 0) carLane--;
-            } else if (ch == 'd' || ch == 'D') {
+            } 
+			else if (ch == 'd' || ch == 'D') 
+			{
                 if (carLane < LANE_COUNT - 1) carLane++;
-            } else if (ch == 'w' || ch == 'W') {
+            } 
+			else if (ch == 'w' || ch == 'W') 
+			{
         		moveCarForward();
-			} else if (ch == 's' || ch == 'S') {
+			} 
+			else if (ch == 's' || ch == 'S') 
+			{
         		moveCarBackward();
-            } else if (ch == 'z' || ch == 'Z') {
+            } 
+			else if (ch == 'z' || ch == 'Z') 
+			{
                 activatePowerUp();
-            } else if (ch == 'x' || ch == 'X') {
+            } 
+			else if (ch == 'x' || ch == 'X') 
+			{
                 gameOver = true;
             }
         }
@@ -124,4 +163,5 @@ void gameLoop() {
 
     saveHighScore();
     gameOverScreen();
+    
 }

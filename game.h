@@ -24,6 +24,7 @@ void moveCarForward();
 void moveCarBackward();
 void restartGame();
 void gameLoop();
+void resetGame();
 int getLaneX(int lane);
 
 #endif

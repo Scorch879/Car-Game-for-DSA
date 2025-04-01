@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <time.h>
 #include <stdbool.h>
+#include <conio.h>
 
 //Screen dimensions
 #define WIDTH 60
