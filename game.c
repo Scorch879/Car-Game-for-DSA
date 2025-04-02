@@ -3,7 +3,7 @@
 #include "powerups.h"
 #include "highscore.h"
 
-//declaration of extern variables
+//initialization of extern variables
 int score = 0;
 int obsCount[LANE_COUNT] = {0};
 int carLane = 1;
