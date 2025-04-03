@@ -122,7 +122,7 @@ void gameLoop() {
 			{
         		moveCarBackward();
             } 
-			else if (ch == 'z' || ch == 'Z') 
+			else if (ch == ' ') 
 			{
                 activatePowerUp();
             } 

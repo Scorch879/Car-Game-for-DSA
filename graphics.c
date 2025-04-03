@@ -55,7 +55,7 @@ void drawUI()
     gotoxy(WIDTH + 5, 12); printf("A - Left");
     gotoxy(WIDTH + 5, 13); printf("S - Backward");
     gotoxy(WIDTH + 5, 14); printf("D - Right");
-    gotoxy(WIDTH + 5, 16); printf("PowerUp : Z");
+    gotoxy(WIDTH + 5, 16); printf("PowerUp : Spacebar");
     gotoxy(WIDTH + 5, 17); printf("Exit    : X");
 }
 
