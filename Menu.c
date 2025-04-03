@@ -33,7 +33,8 @@ void mainMenu()
         displayMenu();
         key = getch(); // Get user input
 
-        if (key == 72 || key == 'w') { // Up arrow or 'W'
+        if (key == 72 || key == 'w') 
+		{ // Up arrow or 'W'
             selectedOption = (selectedOption - 1 + MENU_SIZE) % MENU_SIZE;
         } 
 		else if (key == 80 || key == 's') 
@@ -63,6 +64,25 @@ void mainMenu()
 				
             system("pause");
             system("cls");
+        }
+        else if (key == ' ') //for spacebar key press
+		{ 
+            if (selectedOption == 0) 
+			{ // Game Start
+                hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                srand((unsigned int)time(NULL));
+                system("cls");
+                gameLoop();
+            }
+            else if (selectedOption == 1) 
+			{ 
+				// Instructions
+                // Handle Instructions
+            }
+            else if (selectedOption == 2) 
+			{ 
+                exit(0);
+            }
         }
     }
 }

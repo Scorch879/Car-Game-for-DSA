@@ -1,7 +1,7 @@
 #include "game.h"
 #include "obstacles.h"
 #include "powerups.h"
-#include "highscore.h"
+#include "FileHandling.h"
 
 //initialization of extern variables
 int score = 0;
@@ -24,8 +24,8 @@ void moveCarForward() {
     carY -= 1;
 
     // FORWARD MOVEMENT LIMIT
-    if (carY < HEIGHT - 10) {
-        carY = HEIGHT - 10;
+    if (carY < HEIGHT - 20) {
+        carY = HEIGHT - 20;
     }
 }
 
@@ -98,7 +98,7 @@ void gameLoop() {
     int lastLevel = level;
 
     hideCursor();
-    loadHighScore();
+    highScore = loadHighestScore(filename);
     drawBorder();
 
     while (!gameOver) {
@@ -161,7 +161,7 @@ void gameLoop() {
         tick++;
     }
 
-    saveHighScore();
+//    saveHighScore();
     gameOverScreen();
     
 }
