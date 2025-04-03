@@ -9,8 +9,8 @@
 #include <conio.h>
 
 //Screen dimensions
-#define WIDTH 60
-#define HEIGHT 25
+#define WIDTH 70
+#define HEIGHT 40
 #define SCREEN_SIZE (WIDTH * HEIGHT)
 
 //Vehicle dimentsions

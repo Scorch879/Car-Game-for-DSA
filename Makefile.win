@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = game.o highscore.o main.o obstacles.o powerups.o graphics.o Menu.o
-LINKOBJ  = game.o highscore.o main.o obstacles.o powerups.o graphics.o Menu.o
+OBJ      = game.o FileHandling.o main.o obstacles.o powerups.o graphics.o Menu.o
+LINKOBJ  = game.o FileHandling.o main.o obstacles.o powerups.o graphics.o Menu.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -27,8 +27,8 @@ $(BIN): $(OBJ)
 game.o: game.c
 	$(CC) -c game.c -o game.o $(CFLAGS)
 
-highscore.o: highscore.c
-	$(CC) -c highscore.c -o highscore.o $(CFLAGS)
+FileHandling.o: FileHandling.c
+	$(CC) -c FileHandling.c -o FileHandling.o $(CFLAGS)
 
 main.o: main.c
 	$(CC) -c main.c -o main.o $(CFLAGS)
