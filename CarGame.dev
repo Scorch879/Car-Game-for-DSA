@@ -101,7 +101,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=highscore.h
+FileName=FileHandling.h
 CompileCpp=0
 Folder=include
 Compile=1
@@ -131,7 +131,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=highscore.c
+FileName=FileHandling.c
 CompileCpp=0
 Folder=src
 Compile=1
@@ -151,7 +151,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit10]
-FileName=highscore.txt
+FileName=highscores.txt
 Folder=
 Compile=0
 Link=0
@@ -188,19 +188,10 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit15]
-FileName=Makefile.win
-Folder=
-Compile=0
-Link=0
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
 [Unit16]
-FileName=Menu.c
+FileName=Menu.h
 CompileCpp=0
-Folder=src
+Folder=include
 Compile=1
 Link=1
 Priority=1000
@@ -208,9 +199,19 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit17]
-FileName=Menu.h
+FileName=Makefile.win
 CompileCpp=0
-Folder=include
+Folder=
+Compile=0
+Link=0
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=Menu.c
+CompileCpp=0
+Folder=src
 Compile=1
 Link=1
 Priority=1000

@@ -124,13 +124,16 @@ void gameOverScreen()
     
     gotoxy(WIDTH / 2 - 3, HEIGHT / 2 - 2); 
     printf("GAME OVER!");
-     
+    
+    fflush(stdin);
     gotoxy(WIDTH / 2 - 30, HEIGHT / 2 - 1); 
+    setColor(5);
     printf("Please Enter your name to save your score (Score won't save if blank): ");
     
     EntryScore CurrentScore; // Declare EntryScore
     scanf("%[^\n]", CurrentScore.name); // Read name (max 49 characters)
     
+    setColor(12);
     if (strlen(CurrentScore.name) != 0) 
     {
     	CurrentScore.score = score; // Store current score
