@@ -6,12 +6,13 @@ void spawnObstacle() {
 	if (!allLessThanSix(obsCount)) return;
     if(spawn <= maxSpawnsPerTicks)
     {
-    	bool powerUp = (rand() % 3 == 0);
+    	bool powerShield = (rand() % 3 == 0);
+    	bool powerSloMo = (rand() % 5 == 0);
     	bool boss = (level % 5 == 0 && rand() % 3 == 0);
     	int lane = rand() % LANE_COUNT;
     	obsCount[lane]++;
     	spawn++;
-		addObstacle(lane, boss, powerUp);
+		addObstacle(lane, boss, powerShield, powerSloMo);
 	}
 }
 
@@ -22,12 +23,13 @@ bool allLessThanSix(int obsCount[LANE_COUNT]) {
     return true;
 }
 
-void addObstacle(int lane, bool boss, bool powerUp) {
+void addObstacle(int lane, bool boss, bool powerShield, bool powerSloMo) {
     ObstacleNode* newObs = (ObstacleNode*)malloc(sizeof(ObstacleNode));
     newObs->lane = lane;
     newObs->y = 0;
     newObs->boss = boss;
-    newObs->powerUp = powerUp;
+    newObs->powerShield = powerShield;
+    newObs->powerSloMo = powerSloMo;
     newObs->next = obstacleHead;
     obstacleHead = newObs;
 }
@@ -53,7 +55,8 @@ void drawObstacles() {
         int yPos = (int)(current->y);
         int width = current->boss ? BOSS_WIDTH : OBSTACLE_WIDTH;
         setColor(current->boss ? 12 : 14);
-        setColor(current->powerUp ? 11 : 14);
+        setColor(current->powerShield ? 11 : 14);
+        setColor(current->powerSloMo ? 13 : 14);
         for (j = 0; j < width; j++) {
             gotoxy(x + j, yPos);
             printf("%c", current->boss ? '#' : 'X');
@@ -79,8 +82,14 @@ void updateObstacles() {
 		bool yOverlap = ((int)(current->y) >= carY - 2 && (int)(current->y) <= carY + 1); 
 
         if (xOverlap && yOverlap) {
-        	if(current->powerUp){
-        		shield = true;
+        	if(current->powerShield || current->powerSloMo){
+        		if(current->powerSloMo){
+        			slowmo = true;
+        			slowmoTicks = SLOWMO_DURATION;
+				}
+				else{
+					shield = true;
+				}
 			}
 			else{
 				if (shield) {
