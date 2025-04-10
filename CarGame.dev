@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=17
+UnitCount=16
 
 [VersionInfo]
 Major=1
@@ -51,26 +51,6 @@ AutoIncBuildNr=0
 SyncProduct=1
 
 [Unit5]
-FileName=powerups.c
-CompileCpp=0
-Folder=src
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit4]
-FileName=obstacles.c
-CompileCpp=0
-Folder=src
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit6]
 FileName=game.h
 CompileCpp=0
 Folder=include
@@ -80,7 +60,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit7]
+[Unit4]
+FileName=powerups.c
+CompileCpp=0
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit6]
 FileName=obstacles.h
 CompileCpp=0
 Folder=include
@@ -90,7 +80,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit8]
+[Unit7]
 FileName=powerups.h
 CompileCpp=0
 Folder=include
@@ -100,8 +90,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+[Unit8]
+FileName=CarGame.dev
+CompileCpp=0
+Folder=
+Compile=0
+Link=0
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
 [Unit9]
-FileName=highscore.h
+FileName=gameConstants.h
 CompileCpp=0
 Folder=include
 Compile=1
@@ -111,9 +111,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit13]
-FileName=graphics.h
+FileName=Menu.c
 CompileCpp=0
-Folder=include
+Folder=src
 Compile=1
 Link=1
 Priority=1000
@@ -131,16 +131,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=highscore.c
-CompileCpp=0
-Folder=src
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit3]
 FileName=main.c
 CompileCpp=0
 Folder=src
@@ -150,26 +140,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit10]
-FileName=highscore.txt
-Folder=
-Compile=0
-Link=0
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit11]
-FileName=CarGame.dev
-Folder=
-Compile=0
-Link=0
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit14]
-FileName=graphics.c
+[Unit3]
+FileName=obstacles.c
 CompileCpp=0
 Folder=src
 Compile=1
@@ -178,8 +150,28 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit12]
-FileName=gameConstants.h
+[Unit10]
+FileName=graphics.h
+Folder=include
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+CompileCpp=0
+
+[Unit11]
+FileName=graphics.c
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+CompileCpp=0
+
+[Unit14]
+FileName=Menu.h
 CompileCpp=0
 Folder=include
 Compile=1
@@ -188,8 +180,9 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit15]
+[Unit12]
 FileName=Makefile.win
+CompileCpp=0
 Folder=
 Compile=0
 Link=0
@@ -198,9 +191,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit16]
-FileName=Menu.c
+FileName=FileHandling.h
 CompileCpp=0
-Folder=src
+Folder=include
 Compile=1
 Link=1
 Priority=1000
@@ -211,6 +204,16 @@ BuildCmd=
 FileName=Menu.h
 CompileCpp=0
 Folder=include
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=FileHandling.c
+CompileCpp=0
+Folder=src
 Compile=1
 Link=1
 Priority=1000
