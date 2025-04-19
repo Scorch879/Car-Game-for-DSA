@@ -15,7 +15,7 @@ extern int speed;
 extern bool shield;
 extern bool slowmo;
 extern int slowmoTicks;
-extern int spawn;
+extern int powerUpMoves;
 extern int maxSpawnsPerTicks;
 extern int highScore;
 

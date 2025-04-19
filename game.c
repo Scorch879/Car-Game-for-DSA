@@ -15,7 +15,7 @@ int speed = BASE_SPEED;
 bool shield = false;
 bool slowmo = false;
 int slowmoTicks = 0;
-int spawn = 0;
+int powerUpMoves = 0;
 int maxSpawnsPerTicks = 0;
 int highScore = 0;
 
@@ -64,7 +64,7 @@ void restartGame() {
     shield = false;
     slowmo = false;
     slowmoTicks = 0;
-    spawn = 0;
+    powerUpMoves = 0;
 	maxSpawnsPerTicks = 0;
 
     system("cls");
@@ -93,7 +93,7 @@ void resetGame()
     shield = false;
     slowmo = false;
     slowmoTicks = 0;
-    spawn = 0;
+    powerUpMoves = 0;
 	maxSpawnsPerTicks = 0;
 
     system("cls");
@@ -128,7 +128,7 @@ void gameLoop() {
 			{
         		moveCarBackward();
             } 
-			else if (ch == ' ') 
+			else if (ch == ' ' && powerUpMoves != 0) 
 			{
                 activatePowerUp();
             } 
@@ -141,12 +141,11 @@ void gameLoop() {
         if (tick % 2 == 0) {
             updateObstacles();
             int spawnRate = ((5 - level) % 5 == 0) ? 1 : 5 - level; //ADJUSTED THE SPAWNRATE FOR MORE DOABLE LEVELS
-            maxSpawnsPerTicks = ( level % 5 == 0) ? OBSTACLE_LIMIT + level + 3 : OBSTACLE_LIMIT + level;
+            int cycle = (level % 6) / 3; // 0 to 3
+			maxSpawnsPerTicks = 2 + cycle;
+			if (maxSpawnsPerTicks > 4) maxSpawnsPerTicks = 4;
             if (rand() % spawnRate == 0) {
-            	if(allLessThanSix(obsCount)) //CONTROLS THE NUMBER OBSTACLE SPAWNS PER LANE
-            	{
-                	spawnObstacle();
-                }
+            	spawnObstacles();
             }
         }
 

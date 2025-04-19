@@ -47,16 +47,17 @@ void drawUI()
     gotoxy(WIDTH + 5, 3); printf("Level : %d", level);
     gotoxy(WIDTH + 5, 4); setColor(lives == 1 ? 12 : 15); printf("Lives : %d", lives);
     gotoxy(WIDTH + 5, 5); printf("High Score: %d", highScore);
-    gotoxy(WIDTH + 5, 7); setColor(shield ? 11 : 8); printf("Shield : %s", shield ? "ON " : "OFF");
-    gotoxy(WIDTH + 5, 8); setColor(slowmo ? 13 : 8); printf("SlowMo : %s", slowmo ? "ON " : "OFF");
+    gotoxy(WIDTH + 5, 7); printf("Power Up Moves Left: %d", powerUpMoves);
+    gotoxy(WIDTH + 5, 8); setColor(shield ? 11 : 8); printf("Shield : %s", shield ? "ON " : "OFF");
+    gotoxy(WIDTH + 5, 9); setColor(slowmo ? 13 : 8); printf("SlowMo : %s", slowmo ? "ON " : "OFF");
     setColor(15);
-    gotoxy(WIDTH + 5, 10); printf("Controls:");
-    gotoxy(WIDTH + 5, 11); printf("W - Forward");
-    gotoxy(WIDTH + 5, 12); printf("A - Left");
-    gotoxy(WIDTH + 5, 13); printf("S - Backward");
-    gotoxy(WIDTH + 5, 14); printf("D - Right");
-    gotoxy(WIDTH + 5, 16); printf("PowerUp : Spacebar");
-    gotoxy(WIDTH + 5, 17); printf("Exit    : X");
+    gotoxy(WIDTH + 5, 11); printf("Controls:");
+    gotoxy(WIDTH + 5, 12); printf("W - Forward");
+    gotoxy(WIDTH + 5, 13); printf("A - Left");
+    gotoxy(WIDTH + 5, 14); printf("S - Backward");
+    gotoxy(WIDTH + 5, 15); printf("D - Right");
+    gotoxy(WIDTH + 5, 17); printf("PowerUp : Spacebar");
+    gotoxy(WIDTH + 5, 18); printf("Exit    : X");
 }
 
 void drawLaneMarkers(int tick) 
