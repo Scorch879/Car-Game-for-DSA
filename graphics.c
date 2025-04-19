@@ -1,8 +1,12 @@
 #include "graphics.h"
 #include "FileHandling.h"
+#include "Menu.h"
+
+HANDLE hConsole;
 
 void setColor(int color) 
 {
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
 
@@ -127,8 +131,9 @@ void gameOverScreen()
     
     gotoxy(WIDTH / 2 - 3, HEIGHT / 2 - 2); 
     printf("GAME OVER!");
-     
+    
     gotoxy(WIDTH / 2 - 30, HEIGHT / 2 - 1); 
+    fflush(stdin);
     printf("Please Enter your name to save your score (Score won't save if blank): ");
     
     EntryScore CurrentScore; // Declare EntryScore
@@ -150,7 +155,6 @@ void gameOverScreen()
     printf("Press 'R' to Restart or 'X' to Exit");
     
     setColor(7);
-
     char choice;
     while (1) 
 	{
@@ -162,8 +166,10 @@ void gameOverScreen()
         } 
         else if (choice == 'x' || choice == 'X') 
         {
-            resetGame();
-            mainMenu();
+        	gotoxy(0,0);
+        	resetGame();
+           	mainMenu();
+         	return;
         }
     }
 }

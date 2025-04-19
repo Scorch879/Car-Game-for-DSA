@@ -2,7 +2,9 @@
 
 ObstacleNode* obstacleHead = NULL;
 
-void spawnObstacles() {
+
+void spawnObstacles() 
+{
     if (!allLessThanSix(obsCount)) return;
 
     int availableLanes[LANE_COUNT] = {0, 1, 2, 3};

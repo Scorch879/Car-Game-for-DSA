@@ -1,3 +1,10 @@
+<<<<<<< HEAD
 Scorch 22
 Sean 100
 sean 74
+=======
+Scorch 99
+Sean 0
+sean 74
+Claire 35
+>>>>>>> 193512c83b51dbc905ad4c5fb34410b6b6040380
