@@ -76,7 +76,7 @@ void drawObstacles() {
         int width = current->boss ? BOSS_WIDTH : OBSTACLE_WIDTH;
 
         if (current->powerUp && !current->boss)
-            setColor(11);
+            setColor(1);
         else if (current->boss)
             setColor(12);
         else
@@ -85,7 +85,13 @@ void drawObstacles() {
         int j;
         for (j = 0; j < width; j++) {
             gotoxy(x + j, yPos);
-            printf("%c", current->boss ? '#' : 'X');
+            if(current->boss){
+            	printf("%c",'#');
+			} else if(current->powerUp){
+				printf("%c", 'O');
+			}else{
+				printf("%c", 'X');
+			}
         }
 
         current = current->next;

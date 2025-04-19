@@ -130,6 +130,7 @@ void gameLoop() {
             } 
 			else if (ch == ' ' && powerUpMoves != 0) 
 			{
+				powerUpMoves--;
                 activatePowerUp();
             } 
 			else if (ch == 'x' || ch == 'X') 
@@ -140,14 +141,19 @@ void gameLoop() {
 
         if (tick % 2 == 0) {
             updateObstacles();
-            int spawnRate = ((5 - level) % 5 == 0) ? 1 : 5 - level; //ADJUSTED THE SPAWNRATE FOR MORE DOABLE LEVELS
-            int cycle = (level % 6) / 3; // 0 to 3
-			maxSpawnsPerTicks = 2 + cycle;
+			  // 1. Adjust spawn rate based on level (lower = more frequent)
+		    int spawnRate = (level % 5 == 0) ? 1 : 6 - (level % 5);
+		
+		    // 2. Control max spawns per tick: increases every 5 levels, then restarts
+		    int difficultyStage = (level - 1) / 5;  // 0 for levels 1–5, 1 for 6–10, etc.
+		    maxSpawnsPerTicks = 2 + (difficultyStage % 3);  // 2 to 4, then loop back
+		    
 			if (maxSpawnsPerTicks > 4) maxSpawnsPerTicks = 4;
             if (rand() % spawnRate == 0) {
             	spawnObstacles();
             }
         }
+        
 
         if (level > lastLevel) {
             levelUpEffect();
