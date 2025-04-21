@@ -30,5 +30,6 @@
 //Powerup settings
 #define SLOWMO_DURATION 50
 #define OBSTACLE_LIMIT 5 // VISUAL LIMIT OF NUMBER OF OBSTACLES
+#define OBSTACLE_COUNT 60
 
 #endif

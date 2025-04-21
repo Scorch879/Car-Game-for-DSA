@@ -7,9 +7,6 @@ int selectedOption = 0;
 
 void displayMenu() 
 {
-    static int initialized = 0; 
-    if (!initialized) 
-	{
         gotoxy(5, 2);
         setColor(10);
         printf("===== CAR GAME MENU =====");
@@ -21,8 +18,8 @@ void displayMenu()
         // Draw the scoreboard
         displayHighScores(filename);
 
-        initialized = 1;
-    }
+      
+    
 
     // Redraw only the menu options
     for (i = 0; i < MENU_SIZE; i++) 
