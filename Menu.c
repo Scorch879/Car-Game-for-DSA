@@ -1,25 +1,48 @@
 #include "Menu.h"
-
+#include "FileHandling.h"
 //declaration
 const char *menuOptions[MENU_SIZE] = {"Start Game", "Instructions", "Exit"};
 int selectedOption = 0;
 
-void displayMenu() {
-    gotoxy(0, 0); // Move cursor to top left to overwrite text
-    printf("===== CAR GAME MENU =====\n");
+void displayMenu() 
+{
+    int initialized = 0;
+    if (!initialized) 
+	{
+        setColor(11);
+        gotoxy(5, 2);
+        printf("===== CAR GAME MENU =====");
 
+        gotoxy(5, 12 + MENU_SIZE * 2);
+        setColor(8);
+        printf("Use W/S or Arrow Keys to navigate, ENTER or SPACE to select.");
+
+        // High Score Title
+        setColor(10);
+        gotoxy(WIDTH / 2 + 10, 2);
+        printf("===== HIGH SCORES =====");
+
+        // Draw the scoreboard
+        displayHighScores(filename);
+
+        initialized = 1;
+    }
+
+    // Redraw only the menu options
     for (i = 0; i < MENU_SIZE; i++) 
 	{
-        gotoxy(0, i + 2); // Position menu items below title
+        gotoxy(5, 4 + i * 2);
         if (i == selectedOption) 
 		{
-            printf(" > %s <   ", menuOptions[i]); // Highlight selected option
-        } 
-		else 
-		{
-            printf("   %s     ", menuOptions[i]);
+            setColor(14);
+            printf(" > %s <", menuOptions[i]);
+        } else {
+            setColor(7);
+            printf("   %s   ", menuOptions[i]);
         }
     }
+
+    setColor(7);
 }
 
 void mainMenu() 

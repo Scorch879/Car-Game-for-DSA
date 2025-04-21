@@ -56,6 +56,8 @@ void saveHighScore(const char* filename, EntryScore newEntry)
 void displayHighScores(const char* filename) 
 {
     int count = 0;
+    int startX = WIDTH / 2 + 10; // X-position for right side
+    int startY = 4;
     
     EntryScore* scores = loadHighScores(filename, &count);
     if (!scores || count == 0)
@@ -80,15 +82,18 @@ void displayHighScores(const char* filename)
     }
 
     // Display top 10 scores
-    printf("\n===== HIGH SCORES =====\n");
+    gotoxy(startX, startY - 2);
+    setColor(10);
+    printf("===== HIGH SCORES =====");
+
     int displayCount = (count < 10) ? count : 10;
     for (i = 0; i < displayCount; i++) 
     {
-		
-        printf("%d. %s - %d\n", i + 1, scores[i].name, scores[i].score);
+        gotoxy(startX, startY + i);
+        printf("%d. %s - %d", i + 1, scores[i].name, scores[i].score);
     }
-    printf("=======================\n");
-    
+
+    setColor(7);
     free(scores);
     
 }
