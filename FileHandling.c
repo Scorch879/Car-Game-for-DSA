@@ -89,7 +89,8 @@ void displayHighScores(const char* filename)
     int displayCount = (count < 10) ? count : 10;
     for (i = 0; i < displayCount; i++) 
     {
-        gotoxy(startX, startY + i);
+        gotoxy(startX, startY + i * 2);
+        setColor(11);
         printf("%d. %s - %d", i + 1, scores[i].name, scores[i].score);
     }
 

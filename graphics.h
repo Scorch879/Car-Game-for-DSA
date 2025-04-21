@@ -3,7 +3,7 @@
 
 #include "game.h"
 
-HANDLE hConsole; //Handles colors
+extern HANDLE hConsole; //Handles colors
 
 void setColor(int color); // sets the colors
 void gotoxy(int x, int y); //this is for drawing the UI properly in the console using x and y coords

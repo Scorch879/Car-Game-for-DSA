@@ -1,26 +1,22 @@
 #include "Menu.h"
 #include "FileHandling.h"
+
 //declaration
 const char *menuOptions[MENU_SIZE] = {"Start Game", "Instructions", "Exit"};
 int selectedOption = 0;
 
 void displayMenu() 
 {
-    int initialized = 0;
+    static int initialized = 0; // <-- This is the fix
     if (!initialized) 
 	{
-        setColor(11);
         gotoxy(5, 2);
+        setColor(10);
         printf("===== CAR GAME MENU =====");
 
-        gotoxy(5, 12 + MENU_SIZE * 2);
+        gotoxy(5, 12 + MENU_SIZE * 1);
         setColor(8);
         printf("Use W/S or Arrow Keys to navigate, ENTER or SPACE to select.");
-
-        // High Score Title
-        setColor(10);
-        gotoxy(WIDTH / 2 + 10, 2);
-        printf("===== HIGH SCORES =====");
 
         // Draw the scoreboard
         displayHighScores(filename);
@@ -34,10 +30,12 @@ void displayMenu()
         gotoxy(5, 4 + i * 2);
         if (i == selectedOption) 
 		{
-            setColor(14);
+            setColor(11); // Highlighted option color
             printf(" > %s <", menuOptions[i]);
-        } else {
-            setColor(7);
+        } 
+		else 
+		{
+            setColor(7); // Regular menu color
             printf("   %s   ", menuOptions[i]);
         }
     }
@@ -78,9 +76,11 @@ void mainMenu()
 			else if (selectedOption == 1)
 			{
 				//Instructions or about idk
+				printf("Hi");
 			}
 			else if (selectedOption == 2) //Exit Game
 			{
+				system("cls");
 				exit(0);
 				status == 0;
 			} 
@@ -99,11 +99,13 @@ void mainMenu()
             }
             else if (selectedOption == 1) 
 			{ 
+				//printf("Hi");
 				// Instructions
                 // Handle Instructions
             }
             else if (selectedOption == 2) 
 			{ 
+				system("cls");
                 exit(0);
             }
         }

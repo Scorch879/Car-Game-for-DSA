@@ -1,8 +1,11 @@
 #include "graphics.h"
 #include "FileHandling.h"
 
+HANDLE hConsole;
+
 void setColor(int color) 
 {
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
 
