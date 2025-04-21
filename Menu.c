@@ -7,7 +7,7 @@ int selectedOption = 0;
 
 void displayMenu() 
 {
-    static int initialized = 0; // <-- This is the fix
+    static int initialized = 0; 
     if (!initialized) 
 	{
         gotoxy(5, 2);
@@ -30,12 +30,12 @@ void displayMenu()
         gotoxy(5, 4 + i * 2);
         if (i == selectedOption) 
 		{
-            setColor(11); // Highlighted option color
+            setColor(11); 
             printf(" > %s <", menuOptions[i]);
         } 
 		else 
 		{
-            setColor(7); // Regular menu color
+            setColor(7);
             printf("   %s   ", menuOptions[i]);
         }
     }
