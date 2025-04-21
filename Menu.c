@@ -11,16 +11,12 @@ void displayMenu()
         setColor(10);
         printf("===== CAR GAME MENU =====");
 
-        gotoxy(5, 12 + MENU_SIZE * 4);
+        gotoxy(5, 12 + MENU_SIZE * 6);
         setColor(8);
         printf("Use W/S or Arrow Keys to navigate, ENTER or SPACE to select.");
 
         // Draw the scoreboard
-        gotoxy(5, 13 + MENU_SIZE * 4);
         displayHighScores(filename);
-
-      
-    
 
     // Redraw only the menu options
     for (i = 0; i < MENU_SIZE; i++) 

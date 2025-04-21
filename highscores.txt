@@ -5,5 +5,3 @@ Scorch 99
 Sean 0
 sean 74
 Claire 35
->>>>>>> 193512
-  0
