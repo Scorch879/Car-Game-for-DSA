@@ -131,8 +131,13 @@ void gameLoop() {
 			else if (ch == ' ' && powerUpMoves != 0) 
 			{
 				powerUpMoves--;
-                activatePowerUp();
-            } 
+                activateShield();
+            }
+			else if(ch == 'h' || ch == 'H' && powerUpMoves != 0)
+			{
+				powerUpMoves--;
+				activateSlowmo();
+			} 
 			else if (ch == 'x' || ch == 'X') 
 			{
                 gameOver = true;

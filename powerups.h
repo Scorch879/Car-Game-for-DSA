@@ -3,6 +3,7 @@
 
 #include "game.h"
 
-void activatePowerUp();
+void activateSheild();
+void activateSlowmo();
 
 #endif

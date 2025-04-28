@@ -35,9 +35,12 @@ void drawBorder()
 void drawCar() 
 {
     int x = getLaneX(carLane);
-    setColor(shield ? 11 : 10);
-    setColor(slowmo ? 13 : 10);
-    
+    if(shield)
+    	setColor(11);
+    else if(slowmo)
+    	setColor(13);
+    else
+    	setColor(10);
     
     gotoxy(x, carY - 2);  printf("   _____   ");
     gotoxy(x, carY - 1);  printf(" _/     \\_ ");

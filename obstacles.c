@@ -115,6 +115,48 @@ void updateObstacles() {
 
         bool xOverlap = (carX < obsX + obsWidth) && (carX + CAR_WIDTH > obsX);
         bool yOverlap = ((int)(current->y) >= carY - 2 && (int)(current->y) <= carY + 1);
+        
+        //NEW CODE ADDED:
+        // Check if the current obstacle overlaps with any other obstacle in the same lane
+        bool collisionDetected = false;
+        ObstacleNode* temp = obstacleHead;
+        while (temp != NULL) {
+            // Skip checking the obstacle against itself
+            if (temp == current) {
+                temp = temp->next;
+                continue;
+            }
+
+            // Check for overlap in x and y position
+            int tempX = getLaneX(temp->lane);
+            int tempWidth = temp->boss ? BOSS_WIDTH : OBSTACLE_WIDTH;
+            bool tempXOverlap = (obsX < tempX + tempWidth) && (obsX + obsWidth > tempX);
+            bool tempYOverlap = ((int)(current->y) >= (int)(temp->y) - 2 && (int)(current->y) <= (int)(temp->y) + 1);
+
+            if (tempXOverlap && tempYOverlap) {
+                collisionDetected = true;
+                break; // Exit if an overlap is detected
+            }
+
+            temp = temp->next;
+        }
+
+        if (collisionDetected) {
+            // If an overlap is detected, remove the current obstacle and continue
+            obsCount[current->lane]--;
+            if (prev == NULL) {
+                obstacleHead = current->next;
+                free(current);
+                current = obstacleHead;
+            } else {
+                prev->next = current->next;
+                free(current);
+                current = prev->next;
+            }
+
+            continue;
+        }
+		//NEW CODE ADDED ABOVE^^
 
         if (xOverlap && yOverlap) {
             if (current->powerUp) {
