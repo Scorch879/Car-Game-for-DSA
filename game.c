@@ -17,6 +17,7 @@ bool slowmo = false;
 int slowmoTicks = 0;
 int powerUpMoves = 0;
 int maxSpawnsPerTicks = 0;
+int totalObstacleCount = 0;
 int highScore = 0;
 
 int i = 0, j = 0, l = 0;
@@ -26,8 +27,8 @@ void moveCarForward() {
     carY -= 1;
 
     // FORWARD MOVEMENT LIMIT
-    if (carY < HEIGHT - 20) {
-        carY = HEIGHT - 20;
+    if (carY < HEIGHT - 30) {
+        carY = HEIGHT - 30;
     }
 }
 
@@ -41,7 +42,7 @@ void moveCarBackward() {
 }
 
 int getLaneX(int lane) {
-    int laneCenter = (lane + 1) * LANE_WIDTH;
+    int laneCenter = (lane + 1) * LANE_WIDTH + BORDER_LEFT;
     return laneCenter - (CAR_WIDTH / 2);
 }
 
@@ -66,6 +67,7 @@ void restartGame() {
     slowmoTicks = 0;
     powerUpMoves = 0;
 	maxSpawnsPerTicks = 0;
+	totalObstacleCount = 0;
 
     system("cls");
     gameLoop();
@@ -95,8 +97,16 @@ void resetGame()
     slowmoTicks = 0;
     powerUpMoves = 0;
 	maxSpawnsPerTicks = 0;
+	totalObstacleCount = 0;
 
     system("cls");
+}
+
+int getMaxObstaclesForLevel(int level) {
+    if (level <= 5) return 4;
+    if (level <= 10) return 5;
+    if (level <= 15) return 6;
+    return 6;
 }
 
 void gameLoop() {
@@ -133,7 +143,7 @@ void gameLoop() {
 				powerUpMoves--;
                 activateShield();
             }
-			else if(ch == 'h' || ch == 'H' && powerUpMoves != 0)
+			else if((ch == 'h' || ch == 'H') && powerUpMoves != 0)
 			{
 				powerUpMoves--;
 				activateSlowmo();
@@ -148,13 +158,16 @@ void gameLoop() {
             updateObstacles();
 			  // 1. Adjust spawn rate based on level (lower = more frequent)
 		    int spawnRate = (level % 5 == 0) ? 1 : 6 - (level % 5);
-		
-		    // 2. Control max spawns per tick: increases every 5 levels, then restarts
-		    int difficultyStage = (level - 1) / 5;  // 0 for levels 1–5, 1 for 6–10, etc.
-		    maxSpawnsPerTicks = 2 + (difficultyStage % 3);  // 2 to 4, then loop back
 		    
-			if (maxSpawnsPerTicks > 4) maxSpawnsPerTicks = 4;
-            if (rand() % spawnRate == 0) {
+		    int difficultyLevel = (level - 1) / 5;
+		    maxSpawnsPerTicks = 1 + (difficultyLevel % 3);
+		    if (maxSpawnsPerTicks > 3) maxSpawnsPerTicks = 3;
+		    
+		    gotoxy(BORDER_RIGHT + 5, 22); printf("(For debugging)Max Spawns Per Tick    : %d", maxSpawnsPerTicks); //can be removed
+		    gotoxy(BORDER_RIGHT + 5, 23); printf("(For debugging)Obstacle Limit    : %d", getMaxObstaclesForLevel(level)); //can be removed
+		    gotoxy(BORDER_RIGHT + 5, 24); printf("(For debugging)Spawns    : %d", totalObstacleCount); //can be removed
+		    
+            if (rand() % spawnRate == 0 && totalObstacleCount < getMaxObstaclesForLevel(level)) {
             	spawnObstacles();
             }
         }
@@ -180,6 +193,5 @@ void gameLoop() {
 
 //    saveHighScore();
     gameOverScreen();
-    
     
 }

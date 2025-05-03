@@ -26,9 +26,8 @@ void drawBorder()
     setColor(7);
     for (i = 0; i <= HEIGHT; i++) 
 	{
-        gotoxy(0, i); printf("|");
-        gotoxy(WIDTH, i); printf("|");
-    
+        gotoxy(BORDER_LEFT, i); printf("|");
+        gotoxy(BORDER_RIGHT, i); printf("|");
 	}
 }
 
@@ -52,21 +51,23 @@ void drawCar()
 
 void drawUI() 
 {
-    gotoxy(WIDTH + 5, 2); setColor(15); printf("Score : %d", score);
-    gotoxy(WIDTH + 5, 3); printf("Level : %d", level);
-    gotoxy(WIDTH + 5, 4); setColor(lives == 1 ? 12 : 15); printf("Lives : %d", lives);
-    gotoxy(WIDTH + 5, 5); printf("High Score: %d", highScore);
-    gotoxy(WIDTH + 5, 7); printf("Power Up Moves Left: %d", powerUpMoves);
-    gotoxy(WIDTH + 5, 8); setColor(shield ? 11 : 8); printf("Shield : %s", shield ? "ON " : "OFF");
-    gotoxy(WIDTH + 5, 9); setColor(slowmo ? 13 : 8); printf("SlowMo : %s", slowmo ? "ON " : "OFF");
+    gotoxy(BORDER_RIGHT + 5, 2); setColor(15); printf("Score : %d", score);
+    gotoxy(BORDER_RIGHT + 5, 3); printf("Level : %d", level);
+    gotoxy(BORDER_RIGHT + 5, 4); setColor(lives == 1 ? 12 : 15); printf("Lives : %d", lives);
+    gotoxy(BORDER_RIGHT + 5, 5); printf("High Score: %d", highScore);
+    gotoxy(BORDER_RIGHT + 5, 7); printf("Power Up Moves Left:    "); // Clear area first
+    gotoxy(BORDER_RIGHT + 5, 7); printf("Power Up Moves Left: %d", powerUpMoves);
+    gotoxy(BORDER_RIGHT + 5, 8); setColor(shield ? 11 : 8); printf("Shield : %s", shield ? "ON " : "OFF");
+    gotoxy(BORDER_RIGHT + 5, 9); setColor(slowmo ? 13 : 8); printf("SlowMo : %s", slowmo ? "ON " : "OFF");
     setColor(15);
-    gotoxy(WIDTH + 5, 11); printf("Controls:");
-    gotoxy(WIDTH + 5, 12); printf("W - Forward");
-    gotoxy(WIDTH + 5, 13); printf("A - Left");
-    gotoxy(WIDTH + 5, 14); printf("S - Backward");
-    gotoxy(WIDTH + 5, 15); printf("D - Right");
-    gotoxy(WIDTH + 5, 17); printf("PowerUp : Spacebar");
-    gotoxy(WIDTH + 5, 18); printf("Exit    : X");
+    gotoxy(BORDER_RIGHT + 5, 11); printf("Controls:");
+    gotoxy(BORDER_RIGHT + 5, 12); printf("W - Forward");
+    gotoxy(BORDER_RIGHT + 5, 13); printf("A - Left");
+    gotoxy(BORDER_RIGHT + 5, 14); printf("S - Backward");
+    gotoxy(BORDER_RIGHT + 5, 15); printf("D - Right");
+    gotoxy(BORDER_RIGHT + 5, 18); printf("Shield : Spacebar");
+    gotoxy(BORDER_RIGHT + 5, 19); printf("Slowmo : H");
+    gotoxy(BORDER_RIGHT + 5, 20); printf("Exit    : X");
 }
 
 void drawLaneMarkers(int tick) 
@@ -78,7 +79,7 @@ void drawLaneMarkers(int tick)
         if ((i + tick / 2) % 5 == 0) 
 		{
             for (l = 0; l < LANE_COUNT; l++) { // FIXED LANE MARKER TO LANE_COUNT INSTEAD OF LANE_COUNT - 1
-                laneX = (l + 1) * LANE_WIDTH; 
+                laneX = (l + 1) * LANE_WIDTH + BORDER_LEFT; 
                 gotoxy(laneX, i);
                 printf("|");
             }
@@ -117,10 +118,10 @@ void levelUpEffect()
 {
     setColor(10);
     for (i = 0; i < 3; i++) {
-        gotoxy(WIDTH / 2 - 5, HEIGHT / 2);
+        gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 5, HEIGHT / 2);
         printf("LEVEL %d!", level);
         Sleep(200);
-        gotoxy(WIDTH / 2 - 5, HEIGHT / 2);
+        gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 5, HEIGHT / 2);
         printf("         ");
         Sleep(200);
     }
@@ -132,10 +133,10 @@ void gameOverScreen()
     system("cls");
     setColor(12);
     
-    gotoxy(WIDTH / 2 - 3, HEIGHT / 2 - 2); 
+    gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 3, HEIGHT / 2 - 2); 
     printf("GAME OVER!");
     
-    gotoxy(WIDTH / 2 - 30, HEIGHT / 2 - 1); 
+    gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 30, HEIGHT / 2 - 1); 
     fflush(stdin);
     printf("Please Enter your name to save your score (Score won't save if blank): ");
     
@@ -148,13 +149,13 @@ void gameOverScreen()
     	saveHighScore(filename, CurrentScore); // Save score and update leaderboard
 	}
     
-    gotoxy(WIDTH / 2 - 5, HEIGHT / 2 + 1); 
+    gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 5, HEIGHT / 2 + 1); 
     printf("Score     : %d", score);
     
-    gotoxy(WIDTH / 2 - 5, HEIGHT / 2 + 2); 
+    gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 5, HEIGHT / 2 + 2); 
     printf("High Score: %d", highScore);
     
-    gotoxy(WIDTH / 2 - 15, HEIGHT / 2 + 3); 
+    gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 15, HEIGHT / 2 + 3); 
     printf("Press 'R' to Restart or 'X' to Exit");
     
     setColor(7);

@@ -17,16 +17,17 @@ extern bool slowmo;
 extern int slowmoTicks;
 extern int powerUpMoves;
 extern int maxSpawnsPerTicks;
+extern int totalObstacleCount;
 extern int highScore;
 
 int i, j, l;
 
-void gameLoop();
 void moveCarForward();
 void moveCarBackward();
-void restartGame();
-void gameLoop();
-void resetGame();
 int getLaneX(int lane);
+void restartGame();
+void resetGame();
+int getMaxObstaclesForLevel(int level);
+void gameLoop();
 
 #endif
