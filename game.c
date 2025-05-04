@@ -110,6 +110,7 @@ int getMaxObstaclesForLevel(int level) {
 }
 
 void gameLoop() {
+	
     int tick = 0;
     int lastLevel = level;
 
@@ -153,6 +154,15 @@ void gameLoop() {
                 gameOver = true;
             }
         }
+        
+        level = score / 20 + 1;
+    	speed = BASE_SPEED - (level - 1) * 5;
+    	if (speed < MIN_SPEED) speed = MIN_SPEED;
+    	
+    	if (level > lastLevel) {
+            levelUpEffect();
+            lastLevel = level;
+        }
 
         if (tick % 2 == 0) {
             updateObstacles();
@@ -161,7 +171,6 @@ void gameLoop() {
 		    
 		    int difficultyLevel = (level - 1) / 5;
 		    maxSpawnsPerTicks = 1 + (difficultyLevel % 3);
-		    if (maxSpawnsPerTicks > 3) maxSpawnsPerTicks = 3;
 		    
 		    gotoxy(BORDER_RIGHT + 5, 22); printf("(For debugging)Max Spawns Per Tick    : %d", maxSpawnsPerTicks); //can be removed
 		    gotoxy(BORDER_RIGHT + 5, 23); printf("(For debugging)Obstacle Limit    : %d", getMaxObstaclesForLevel(level)); //can be removed
@@ -170,12 +179,6 @@ void gameLoop() {
             if (rand() % spawnRate == 0 && totalObstacleCount < getMaxObstaclesForLevel(level)) {
             	spawnObstacles();
             }
-        }
-        
-
-        if (level > lastLevel) {
-            levelUpEffect();
-            lastLevel = level;
         }
 
         if (slowmo && --slowmoTicks <= 0) {
@@ -190,8 +193,18 @@ void gameLoop() {
         Sleep(speed);
         tick++;
     }
-
-//    saveHighScore();
+    
+	freeAllObstacles();
     gameOverScreen();
     
+}
+
+void freeAllObstacles() {
+    ObstacleNode* current = obstacleHead;
+    while (current) {
+        ObstacleNode* temp = current;
+        current = current->next;
+        free(temp);
+    }
+    obstacleHead = NULL;
 }

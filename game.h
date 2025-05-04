@@ -29,5 +29,6 @@ void restartGame();
 void resetGame();
 int getMaxObstaclesForLevel(int level);
 void gameLoop();
+void freeAllObstacles();
 
 #endif

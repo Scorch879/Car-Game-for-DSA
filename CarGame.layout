@@ -10,13 +10,13 @@ TopLine=1
 LeftChar=1
 [Editor_2]
 <<<<<<< HEAD
-CursorCol=4
-CursorRow=205
+CursorCol=99
+CursorRow=25
 =======
 CursorCol=34
 CursorRow=14
 >>>>>>> 193512c83b51dbc905ad4c5fb34410b6b6040380
-TopLine=112
+TopLine=13
 LeftChar=1
 [Editor_0]
 CursorCol=1
@@ -31,15 +31,15 @@ LeftChar=1
 [Editors]
 <<<<<<< HEAD
 Order=5,0,5,0,3,6,7,4,8,1,13,12,9,2,15,10,14
-Focused=14
+Focused=0
 =======
 Order=5,0,5,0,3,6,7,4,8,1,13,12,9,2,15,10,14
 Focused=2
 >>>>>>> 193512c83b51dbc905ad4c5fb34410b6b6040380
 [Editor_4]
 CursorCol=25
-CursorRow=18
-TopLine=1
+CursorRow=32
+TopLine=9
 LeftChar=1
 [Editor_5]
 <<<<<<< HEAD

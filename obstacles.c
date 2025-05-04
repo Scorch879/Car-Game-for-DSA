@@ -6,7 +6,7 @@ ObstacleNode* obstacleHead = NULL;
 void spawnObstacles() 
 {
 	if (totalObstacleCount >= getMaxObstaclesForLevel(level)) return;
-	
+
     int availableLanes[LANE_COUNT] = {0, 1, 2, 3};
     int i, j, temp;
 
@@ -17,28 +17,36 @@ void spawnObstacles()
         availableLanes[i] = availableLanes[j];
         availableLanes[j] = temp;
     }
-
-    int lanesToSpawn = 1 + rand() % 3; // spawn in 1 to 3 lanes
+    
+    int lanesToSpawn = 1 + rand() % 3;
 	int lanesSpawned = 0;
-	int spawnTicks = 0;
-	
-	for (i = 0; i < LANE_COUNT && spawnTicks < maxSpawnsPerTicks && lanesSpawned < lanesToSpawn; i++) {
-	    int lane = availableLanes[i];
-	
-	    if (obsCount[lane] < OBSTACLE_LIMIT && totalObstacleCount < getMaxObstaclesForLevel(level)) {
-	        bool powerUp = (rand() % 5 == 0);
-	        bool boss = (level % 5 == 0 && rand() % 4 == 0);
-	
-	        addObstacle(lane, boss, powerUp);
-	        if(!powerUp)
-			{
-		    	obsCount[lane]++;
-		    	spawnTicks++;
-		    	totalObstacleCount++;
-			}
-	        lanesSpawned++;
-	    }
-	}
+    int spawnAttempts = 0;
+
+    for (i = 0; i < LANE_COUNT && spawnAttempts < maxSpawnsPerTicks && lanesSpawned < lanesToSpawn; i++) {
+        int lane = availableLanes[i];
+
+        if (obsCount[lane] >= OBSTACLE_LIMIT) continue;
+
+        bool powerUp = (rand() % 5 == 0);
+        bool boss = (level % 5 == 0 && rand() % 4 == 0);
+
+        // Create a mock for overlap check
+        ObstacleNode test = { lane, 0, boss, powerUp, NULL };
+        if (isObstacleOverlapping(&test)) continue;
+
+        // If non-powerup, check if we hit the obstacle cap
+        if (!powerUp && totalObstacleCount >= getMaxObstaclesForLevel(level)) continue;
+
+        // Spawn it
+        addObstacle(lane, boss, powerUp);
+
+        if (!powerUp) {
+            obsCount[lane]++;
+            totalObstacleCount++;  // Count only non-powerUps
+        }
+
+        spawnAttempts++;
+    }
 }
 
 void addObstacle(int lane, bool boss, bool powerUp) {
@@ -127,10 +135,8 @@ void drawObstacles() {
 	{
         if (isObstacleOverlapping(current)) 
 		{
-            obsCount[current->lane]--;
-            if (obsCount[current->lane] < 0) obsCount[current->lane] = 0;
-            totalObstacleCount--;
-            if(totalObstacleCount < 0) totalObstacleCount = 0;
+            if (obsCount[current->lane] > 0) obsCount[current->lane]--;
+            if (totalObstacleCount > 0) totalObstacleCount--;
 
             if (prev == NULL) 
 			{
@@ -199,8 +205,7 @@ void updateObstacles() {
             if (current->powerUp) {
                 powerUpMoves++;
             } else {
-            	totalObstacleCount--;
-    			if (totalObstacleCount < 0) totalObstacleCount = 0;
+            	if (totalObstacleCount > 0) totalObstacleCount--;
                 if (shield) {
                     shield = false;
                 } else {
@@ -216,8 +221,7 @@ void updateObstacles() {
                 }
             }
             
-    		obsCount[current->lane]--;
-    		if(obsCount[current->lane]<0) obsCount[current->lane] = 0;
+    		if (obsCount[current->lane] > 0) obsCount[current->lane]--;
     		
             if (prev == NULL) {
                 obstacleHead = current->next;
@@ -234,10 +238,8 @@ void updateObstacles() {
 
         if ((int)(current->y) > HEIGHT) {
             score++;
-            obsCount[current->lane]--;
-            if(obsCount[current->lane]<0) obsCount[current->lane] = 0;
-            totalObstacleCount--;
-    		if (totalObstacleCount < 0) totalObstacleCount = 0;
+            if (obsCount[current->lane] > 0) obsCount[current->lane]--;
+            if (totalObstacleCount > 0) totalObstacleCount--;
 
             if (prev == NULL) {
                 obstacleHead = current->next;
@@ -255,8 +257,4 @@ void updateObstacles() {
         prev = current;
         current = current->next;
     }
-
-    level = score / 20 + 1;
-    speed = BASE_SPEED - (level - 1) * 5;
-    if (speed < MIN_SPEED) speed = MIN_SPEED;
 }
