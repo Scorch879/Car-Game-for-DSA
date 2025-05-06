@@ -144,16 +144,20 @@ void gameOverScreen()
     
     gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 30, HEIGHT / 2 - 1); 
     fflush(stdin);
-    printf("Please Enter your name to save your score (Score won't save if blank): ");
     
     EntryScore CurrentScore; // Declare EntryScore
-    scanf("%[^\n]", CurrentScore.name); // Read name (max 49 characters)
+    printf("Please Enter your name to save your score (Score won't save if blank): ");
+    fgets(CurrentScore.name, sizeof(CurrentScore.name), stdin);
+	CurrentScore.name[strcspn(CurrentScore.name, "\n")] = '\0'; // Remove newline
+	
+   
+    trim(CurrentScore.name); // Remove leading/trailing whitespace
     
     if (strlen(CurrentScore.name) != 0) 
     {
     	CurrentScore.score = score; // Store current score
     	saveHighScore(filename, CurrentScore); // Save score and update leaderboard
-	}
+	}//else it does not save your score if its higher than the last
     
     gotoxy((BORDER_RIGHT + BORDER_LEFT)/2 - 5, HEIGHT / 2 + 1); 
     printf("Score     : %d", score);

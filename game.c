@@ -194,10 +194,6 @@ void gameLoop() {
 		    int difficultyLevel = (level - 1) / 5;
 		    maxSpawnsPerTicks = 1 + (difficultyLevel % 3);
 		    
-		    gotoxy(BORDER_RIGHT + 5, 26); printf("(For debugging)Max Spawns Per Tick    : %d", maxSpawnsPerTicks); //can be removed
-		    gotoxy(BORDER_RIGHT + 5, 27); printf("(For debugging)Obstacle Limit    : %d", getMaxObstaclesForLevel(level)); //can be removed
-		    gotoxy(BORDER_RIGHT + 5, 28); printf("(For debugging)Spawns    : %d", totalObstacleCount); //can be removed
-		    
             if (rand() % spawnRate == 0 && totalObstacleCount < getMaxObstaclesForLevel(level)) {
             	spawnObstacles();
             }

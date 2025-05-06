@@ -2,7 +2,7 @@
 #include "FileHandling.h"
 
 //declaration
-const char *menuOptions[MENU_SIZE] = {"Start Game", "Instructions", "Exit"};
+const char *menuOptions[MENU_SIZE] = {"Start Game", "Exit"};
 int selectedOption = 0;
 
 void displayMenu() 
@@ -69,11 +69,6 @@ void mainMenu()
 			}
 			else if (selectedOption == 1)
 			{
-				//Instructions or about idk
-				printf("Hi");
-			}
-			else if (selectedOption == 2) //Exit Game
-			{
 				system("cls");
 				exit(0);
 				status == 0;
@@ -92,12 +87,6 @@ void mainMenu()
                 gameLoop();
             }
             else if (selectedOption == 1) 
-			{ 
-				//printf("Hi");
-				// Instructions
-                // Handle Instructions
-            }
-            else if (selectedOption == 2) 
 			{ 
 				system("cls");
                 exit(0);
