@@ -29,18 +29,19 @@ void spawnObstacles()
 
         bool powerUp = (rand() % 5 == 0);
         bool boss = (level % 5 == 0 && rand() % 4 == 0);
+        bool coins = (rand() % 2 == 0);
 
         // Create a mock for overlap check
-        ObstacleNode test = { lane, 0, boss, powerUp, NULL };
+        ObstacleNode test = { lane, 0, boss, powerUp, coins, NULL };
         if (isObstacleOverlapping(&test)) continue;
 
         // If non-powerup, check if we hit the obstacle cap
         if (!powerUp && totalObstacleCount >= getMaxObstaclesForLevel(level)) continue;
 
         // Spawn it
-        addObstacle(lane, boss, powerUp);
+        addObstacle(lane, boss, powerUp, coins);
 
-        if (!powerUp) {
+        if (!powerUp && !coins) {
             obsCount[lane]++;
             totalObstacleCount++;  // Count only non-powerUps
         }
@@ -49,12 +50,13 @@ void spawnObstacles()
     }
 }
 
-void addObstacle(int lane, bool boss, bool powerUp) {
+void addObstacle(int lane, bool boss, bool powerUp, bool isCoins) {
     ObstacleNode* newObs = (ObstacleNode*)malloc(sizeof(ObstacleNode));
     newObs->lane = lane;
     newObs->y = 0;
     newObs->boss = boss;
     newObs->powerUp = powerUp;
+    newObs->isCoins = isCoins;
     newObs->next = obstacleHead;
     obstacleHead = newObs;
 }
@@ -168,7 +170,19 @@ void drawObstacles() {
                 gotoxy(x + spaces, yPos + i);
                 for (j = 0; j < o_count; j++) printf("o");
             }
-        } 
+        }
+		else if (current->isCoins && (!current->boss && !current->powerUp)) 
+		{
+            setColor(6); 
+			for (i = 0; i < 3; i++) {
+			    int o_count = 5 - 2 * i;
+			    int spaces = (5 - o_count) / 2; 
+			    gotoxy(x + spaces + 3, yPos + i);
+			    for (j = 0; j < o_count; j++) {
+			        printf("o");
+			    }
+			}
+        }  
 		else 
 		{
             setColor(current->boss ? 12 : 14);
@@ -204,7 +218,11 @@ void updateObstacles() {
 		{
             if (current->powerUp) {
                 powerUpMoves++;
-            } else {
+            }
+			else if(current->isCoins){
+				coins++;
+			} 
+			else {
             	if (totalObstacleCount > 0) totalObstacleCount--;
                 if (shield) {
                     shield = false;
@@ -235,6 +253,50 @@ void updateObstacles() {
 
             continue;
         }
+        
+        if(carX == obsX)
+        {
+        	if (bombCar) {
+			    bombCar = false;
+			
+			    ObstacleNode* temp = obstacleHead;
+			    ObstacleNode* prevTemp = NULL;
+			    ObstacleNode* closest = NULL;
+			    ObstacleNode* prevClosest = NULL;
+			    float maxY = -1;
+			
+			    while (temp != NULL) {
+			        int tempX = getLaneX(temp->lane);
+			        if (
+			            tempX == getLaneX(carLane) &&
+			            !temp->powerUp &&
+			            !temp->isCoins &&
+			            temp->y < carY && // must be in front of the car
+			            temp->y > maxY    // highest y still less than carY
+			        ) {
+			            maxY = temp->y;
+			            closest = temp;
+			            prevClosest = prevTemp;
+			        }
+			        prevTemp = temp;
+			        temp = temp->next;
+			    }
+			
+			    if (closest != NULL) {
+			        explosionEffect(getLaneX(closest->lane), (int)closest->y);
+			        score++;
+			        if (obsCount[closest->lane] > 0) obsCount[closest->lane]--;
+			        if (totalObstacleCount > 0) totalObstacleCount--;
+			
+			        if (prevClosest == NULL) {
+			            obstacleHead = closest->next;
+			        } else {
+			            prevClosest->next = closest->next;
+			        }
+			        free(closest);
+			    }
+			}
+		}
 
         if ((int)(current->y) > HEIGHT) {
             score++;

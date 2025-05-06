@@ -5,5 +5,7 @@
 
 void activateSheild();
 void activateSlowmo();
+void reloadBomb();
+void activateBomb();
 
 #endif

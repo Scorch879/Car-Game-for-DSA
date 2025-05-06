@@ -8,12 +8,13 @@ typedef struct ObstacleNode {
     float y;
     bool boss;
     bool powerUp;
+    bool isCoins;
     struct ObstacleNode* next;
 } ObstacleNode;
 
 extern ObstacleNode* obstacleHead;
 
-void addObstacle(int lane, bool boss, bool powerUp);
+void addObstacle(int lane, bool boss, bool powerUp, bool isCoins);
 void clearObstacles();
 bool isObstacleOverlapping(ObstacleNode* target);
 void drawObstacles();

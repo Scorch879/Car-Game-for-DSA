@@ -12,10 +12,14 @@ bool gameOver = false;
 int lives = INITIAL_LIVES;
 int level = 1;
 int speed = BASE_SPEED;
+int bombAmmo = 0;
+bool bombCar = 0;
+int bombTicks = 0;
 bool shield = false;
 bool slowmo = false;
 int slowmoTicks = 0;
 int powerUpMoves = 0;
+int coins = 0;
 int maxSpawnsPerTicks = 0;
 int totalObstacleCount = 0;
 int highScore = 0;
@@ -62,10 +66,14 @@ void restartGame() {
     lives = INITIAL_LIVES;
     level = 1;
     speed = BASE_SPEED;
+    bombAmmo = 0;
+	bombCar = 0;
+	bombTicks = 0;
     shield = false;
     slowmo = false;
     slowmoTicks = 0;
     powerUpMoves = 0;
+    coins = 0;
 	maxSpawnsPerTicks = 0;
 	totalObstacleCount = 0;
 
@@ -92,10 +100,14 @@ void resetGame()
     lives = INITIAL_LIVES;
     level = 1;
     speed = BASE_SPEED;
+    bombAmmo = 0;
+	bombCar = 0;
+	bombTicks = 0;
     shield = false;
     slowmo = false;
     slowmoTicks = 0;
     powerUpMoves = 0;
+    coins = 0;
 	maxSpawnsPerTicks = 0;
 	totalObstacleCount = 0;
 
@@ -148,7 +160,17 @@ void gameLoop() {
 			{
 				powerUpMoves--;
 				activateSlowmo();
-			} 
+			}
+			else if ((ch == 'r' || ch == 'R') && coins >= BOMB_PRICE)
+			{
+				coins -= BOMB_PRICE;
+				reloadBomb();
+			}
+			else if ((ch == 'b' || ch == 'B') && bombAmmo != 0)
+			{
+				bombAmmo--;
+				activateBomb();
+			}
 			else if (ch == 'x' || ch == 'X') 
 			{
                 gameOver = true;
@@ -172,9 +194,9 @@ void gameLoop() {
 		    int difficultyLevel = (level - 1) / 5;
 		    maxSpawnsPerTicks = 1 + (difficultyLevel % 3);
 		    
-		    gotoxy(BORDER_RIGHT + 5, 22); printf("(For debugging)Max Spawns Per Tick    : %d", maxSpawnsPerTicks); //can be removed
-		    gotoxy(BORDER_RIGHT + 5, 23); printf("(For debugging)Obstacle Limit    : %d", getMaxObstaclesForLevel(level)); //can be removed
-		    gotoxy(BORDER_RIGHT + 5, 24); printf("(For debugging)Spawns    : %d", totalObstacleCount); //can be removed
+		    gotoxy(BORDER_RIGHT + 5, 26); printf("(For debugging)Max Spawns Per Tick    : %d", maxSpawnsPerTicks); //can be removed
+		    gotoxy(BORDER_RIGHT + 5, 27); printf("(For debugging)Obstacle Limit    : %d", getMaxObstaclesForLevel(level)); //can be removed
+		    gotoxy(BORDER_RIGHT + 5, 28); printf("(For debugging)Spawns    : %d", totalObstacleCount); //can be removed
 		    
             if (rand() % spawnRate == 0 && totalObstacleCount < getMaxObstaclesForLevel(level)) {
             	spawnObstacles();
@@ -183,6 +205,10 @@ void gameLoop() {
 
         if (slowmo && --slowmoTicks <= 0) {
             slowmo = false;
+        }
+        
+        if (bombCar && --bombTicks <= 0) {
+            bombCar = false;
         }
 
         drawLaneMarkers(tick);

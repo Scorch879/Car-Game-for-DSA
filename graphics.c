@@ -55,19 +55,25 @@ void drawUI()
     gotoxy(BORDER_RIGHT + 5, 3); printf("Level : %d", level);
     gotoxy(BORDER_RIGHT + 5, 4); setColor(lives == 1 ? 12 : 15); printf("Lives : %d", lives);
     gotoxy(BORDER_RIGHT + 5, 5); printf("High Score: %d", highScore);
-    gotoxy(BORDER_RIGHT + 5, 7); printf("Power Up Moves Left:    "); // Clear area first
+    gotoxy(BORDER_RIGHT + 5, 7); setColor(powerUpMoves == 1 ? 12 : 15); printf("Power Up Moves Left:    "); // Clear area first
     gotoxy(BORDER_RIGHT + 5, 7); printf("Power Up Moves Left: %d", powerUpMoves);
-    gotoxy(BORDER_RIGHT + 5, 8); setColor(shield ? 11 : 8); printf("Shield : %s", shield ? "ON " : "OFF");
-    gotoxy(BORDER_RIGHT + 5, 9); setColor(slowmo ? 13 : 8); printf("SlowMo : %s", slowmo ? "ON " : "OFF");
+    gotoxy(BORDER_RIGHT + 5, 8); setColor(bombAmmo < 5 ? 12 : 15); printf("Bomb Ammo Left:   ");
+    gotoxy(BORDER_RIGHT + 5, 8); printf("Bomb Ammo Left: %d", bombAmmo);
+    gotoxy(BORDER_RIGHT + 5, 9); setColor(coins <= 10 ? 12 : 15);printf("Coins:   ");
+    gotoxy(BORDER_RIGHT + 5, 9); printf("Coins: %d", coins);
+    gotoxy(BORDER_RIGHT + 5, 10); setColor(shield ? 11 : 8); printf("Shield : %s", shield ? "ON " : "OFF");
+    gotoxy(BORDER_RIGHT + 5, 11); setColor(slowmo ? 13 : 8); printf("SlowMo : %s", slowmo ? "ON " : "OFF");
     setColor(15);
-    gotoxy(BORDER_RIGHT + 5, 11); printf("Controls:");
-    gotoxy(BORDER_RIGHT + 5, 12); printf("W - Forward");
-    gotoxy(BORDER_RIGHT + 5, 13); printf("A - Left");
-    gotoxy(BORDER_RIGHT + 5, 14); printf("S - Backward");
-    gotoxy(BORDER_RIGHT + 5, 15); printf("D - Right");
-    gotoxy(BORDER_RIGHT + 5, 18); printf("Shield : Spacebar");
-    gotoxy(BORDER_RIGHT + 5, 19); printf("Slowmo : H");
-    gotoxy(BORDER_RIGHT + 5, 20); printf("Exit    : X");
+    gotoxy(BORDER_RIGHT + 5, 13); printf("Controls:");
+    gotoxy(BORDER_RIGHT + 5, 14); printf("W - Forward");
+    gotoxy(BORDER_RIGHT + 5, 15); printf("A - Left");
+    gotoxy(BORDER_RIGHT + 5, 16); printf("S - Backward");
+    gotoxy(BORDER_RIGHT + 5, 17); printf("D - Right");
+    gotoxy(BORDER_RIGHT + 5, 20); printf("Shield : Spacebar");
+    gotoxy(BORDER_RIGHT + 5, 21); printf("Slowmo : H");
+    gotoxy(BORDER_RIGHT + 5, 22); printf("Bomb : B");
+    gotoxy(BORDER_RIGHT + 5, 23); printf("Buy Ammo for 10 coins : R");
+    gotoxy(BORDER_RIGHT + 5, 24); printf("Exit    : X");
 }
 
 void drawLaneMarkers(int tick) 
