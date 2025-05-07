@@ -9,9 +9,8 @@
 #include <conio.h>
 
 //Screen dimensions
-#define WIDTH 60
-#define HEIGHT 25
-#define SCREEN_SIZE (WIDTH * HEIGHT)
+#define WIDTH 70
+#define HEIGHT 44
 
 //Vehicle dimentsions
 #define CAR_WIDTH 11
@@ -21,14 +20,19 @@
 //Lane config
 #define LANE_COUNT 4
 #define LANE_WIDTH (WIDTH / (LANE_COUNT + 1))
+#define BORDER_LEFT (LANE_WIDTH * 3)
+#define BORDER_RIGHT (WIDTH + BORDER_LEFT)
 
 //Game settings
-#define INITIAL_LIVES 3
+#define INITIAL_LIVES 5
 #define BASE_SPEED 80
 #define MIN_SPEED 20
 
 //Powerup settings
+#define BOMB_PRICE 10
+#define BOMB_DURATION 20
 #define SLOWMO_DURATION 50
-#define OBSTACLE_LIMIT 6 // VISUAL LIMIT OF NUMBER OF OBSTACLES
+#define OBSTACLE_LIMIT 4 // VISUAL LIMIT OF NUMBER OF OBSTACLES
+#define OBSTACLE_COUNT 60
 
 #endif

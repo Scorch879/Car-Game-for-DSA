@@ -3,6 +3,9 @@
 
 #include "game.h"
 
-void activatePowerUp();
+void activateSheild();
+void activateSlowmo();
+void reloadBomb();
+void activateBomb();
 
 #endif

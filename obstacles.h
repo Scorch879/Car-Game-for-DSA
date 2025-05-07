@@ -7,14 +7,16 @@ typedef struct ObstacleNode {
     int lane;
     float y;
     bool boss;
+    bool powerUp;
+    bool isCoins;
     struct ObstacleNode* next;
 } ObstacleNode;
 
 extern ObstacleNode* obstacleHead;
 
-bool allLessThanSix(int obsCount[LANE_COUNT]);
-void addObstacle(int lane, bool boss);
+void addObstacle(int lane, bool boss, bool powerUp, bool isCoins);
 void clearObstacles();
+bool isObstacleOverlapping(ObstacleNode* target);
 void drawObstacles();
 void updateObstacles();
 void spawnObstacle();
